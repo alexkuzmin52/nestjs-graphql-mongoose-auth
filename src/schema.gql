@@ -1,0 +1,46 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  _id: String!
+  name: String!
+  email: String!
+  password: String!
+  role: String
+  status: String
+}
+
+type AuthRegisterResponseDto {
+  message: String!
+  token: String!
+}
+
+type AuthLoginResponseDto {
+  access_token: String!
+  refresh_token: String!
+}
+
+type Query {
+  hello: String!
+  users: [User!]!
+  userById(_id: String!): User!
+  confirm(confirm_token: String!): AuthLoginResponseDto!
+  refresh(refresh_token: String!): AuthLoginResponseDto!
+}
+
+type Mutation {
+  register(user: CreateUserInput!): AuthRegisterResponseDto!
+  login(credential: AuthLoginInput!): AuthLoginResponseDto!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input AuthLoginInput {
+  email: String!
+  password: String!
+}
