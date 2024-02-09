@@ -11,6 +11,8 @@ import { User } from '../user/schemas/user.schema';
 import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../decorators/user-roles.decorator';
 import { UserRoleEnum } from '../constants';
+import { UpdateUserRoleInput } from '../user/dto/update-user-role.input';
+import { ChangePasswordInput } from '../user/dto/change-password.input';
 
 @Resolver()
 export class AuthResolver {
@@ -36,6 +38,7 @@ export class AuthResolver {
   ): Promise<AuthLoginResponseDto> {
     return await this.authService.refreshToken(refresh_token);
   }
+
   @Mutation(() => AuthLoginResponseDto)
   @UseGuards(GqlJwtAuthGuard, RolesGuard)
   @Roles(UserRoleEnum.USER, UserRoleEnum.ADMIN, UserRoleEnum.MANAGER)
@@ -45,5 +48,16 @@ export class AuthResolver {
     @CurrentUser() user: User,
   ): Promise<AuthLoginResponseDto> {
     return await this.authService.loginUser(user._id.toString(), credential);
+  }
+
+  @Mutation(() => AuthLoginResponseDto)
+  @UseGuards(GqlJwtAuthGuard)
+  // @Roles(UserRoleEnum.ADMIN)
+  async changePassword(
+    @Args('change_password', { type: () => ChangePasswordInput })
+      change_password: ChangePasswordInput,
+    @CurrentUser() user: User,
+  ): Promise<AuthLoginResponseDto> {
+    return await this.authService.changeUserPassword(change_password, user);
   }
 }

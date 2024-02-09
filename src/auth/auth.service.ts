@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
 import { AuthRegisterResponseDto } from './dto/auth-register-response.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Auth, AuthType } from './schemas/auth.schema';
@@ -12,6 +12,7 @@ import { UserStatusEnum } from '../constants';
 import { AuthLoginInput } from './dto/auth-login.input';
 import { User } from '../user/schemas/user.schema';
 import { AuthLoginResponseDto } from './dto/auth-login-response.dto';
+import { ChangePasswordInput } from '../user/dto/change-password.input';
 
 @Injectable()
 export class AuthService {
@@ -109,5 +110,27 @@ export class AuthService {
     const tokensPair = this.createTokensPair(user);
     // console.log(tokensPair);
     return tokensPair;
+  }
+
+  async changeUserPassword(
+    change_password: ChangePasswordInput,
+    user: User,
+  ): Promise<AuthLoginResponseDto> {
+    // const { password } = new_password;
+    const {_id, email} = user;
+    console.log(user);
+    const userByEmail = await this.userService.findUserByEmail(email);
+    const isValidOldPassword = await bcrypt.compare(change_password.old_password, userByEmail.password);
+    if (!isValidOldPassword) throw new BadRequestException('wrong old password');
+
+    const hashedPassword = await bcrypt.hash(change_password.new_password, 10) ;
+
+    console.log(change_password.new_password);
+    console.log(hashedPassword);
+    const updatedUser = await this.userService.updateUser( _id.toString(), {
+      password: hashedPassword
+    });
+    console.log(updatedUser);
+    return this.createTokensPair(updatedUser)
   }
 }
