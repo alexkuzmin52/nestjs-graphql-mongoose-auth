@@ -1,6 +1,5 @@
-import { Field, InputType } from "@nestjs/graphql";
-import { User } from "../schemas/user.schema";
-import { IsNotEmpty, MinLength } from "class-validator";
+import { Field, InputType } from '@nestjs/graphql';
+import { IsNotEmpty, MinLength } from 'class-validator';
 
 @InputType()
 export class ChangePasswordInput {
@@ -14,4 +13,3 @@ export class ChangePasswordInput {
   @MinLength(6, { message: 'Too few characters (must be at least 6)' })
   old_password: string;
 }
-

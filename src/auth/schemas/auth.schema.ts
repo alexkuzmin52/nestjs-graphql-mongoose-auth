@@ -1,7 +1,8 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Field, ObjectType } from '@nestjs/graphql';
-import { User } from '../../user/schemas/user.schema';
 import { Document, Schema as MongooseSchema } from 'mongoose';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+
+import { User } from '../../user/schemas/user.schema';
 
 @ObjectType()
 @Schema({ timestamps: true })

@@ -1,13 +1,14 @@
-import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
+
+import { GqlJwtAuthGuard } from '../guards/gql-jwt-auth.guard';
+import { Roles } from '../decorators/user-roles.decorator';
+import { RolesGuard } from '../guards/roles.guard';
+import { UpdateUserRoleInput } from './dto/update-user-role.input';
+import { UpdateUserStatusInput } from './dto/update-user-status.input';
 import { User } from './schemas/user.schema';
 import { UserRoleEnum } from '../constants';
-import { UseGuards } from '@nestjs/common';
-import { RolesGuard } from '../guards/roles.guard';
-import { Roles } from '../decorators/user-roles.decorator';
-import { GqlJwtAuthGuard } from '../guards/gql-jwt-auth.guard';
-import { UpdateUserStatusInput } from "./dto/update-user-status.input";
-import { UpdateUserRoleInput } from "./dto/update-user-role.input";
 
 @Resolver()
 export class UserResolver {
@@ -28,7 +29,6 @@ export class UserResolver {
   @Roles(UserRoleEnum.ADMIN)
   async updateStatus(
     @Args('update_status') update_status: UpdateUserStatusInput,
-    // @CurrentUser() user: User,
   ): Promise<User> {
     return await this.userService.updateUserStatus(update_status);
   }
@@ -38,7 +38,6 @@ export class UserResolver {
   @Roles(UserRoleEnum.ADMIN)
   async updateRole(
     @Args('update_role') update_role: UpdateUserRoleInput,
-    // @CurrentUser() user: User,
   ): Promise<User> {
     return await this.userService.updateUserRole(update_role);
   }

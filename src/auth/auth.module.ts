@@ -1,12 +1,13 @@
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './strategy/jwt.strategy';
+import { MongooseModule } from '@nestjs/mongoose';
+import { PassportModule } from '@nestjs/passport';
 import { forwardRef, Module } from '@nestjs/common';
+
+import { Auth, AuthSchema } from './schemas/auth.schema';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
-import { JwtStrategy } from './strategy/jwt.strategy';
 import { UserModule } from '../user/user.module';
-import { MongooseModule } from '@nestjs/mongoose';
-import { JwtModule } from '@nestjs/jwt';
-import { Auth, AuthSchema } from './schemas/auth.schema';
-import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [

@@ -1,18 +1,18 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { AuthService } from './auth.service';
-import { AuthRegisterResponseDto } from './dto/auth-register-response.dto';
-import { CreateUserInput } from '../user/dto/create-user.input';
-import { AuthLoginResponseDto } from './dto/auth-login-response.dto';
-import { AuthLoginInput } from './dto/auth-login.input';
 import { UseGuards } from '@nestjs/common';
-import { GqlJwtAuthGuard } from '../guards/gql-jwt-auth.guard';
-import { CurrentUser } from '../decorators/user.decorator';
-import { User } from '../user/schemas/user.schema';
-import { RolesGuard } from '../guards/roles.guard';
-import { Roles } from '../decorators/user-roles.decorator';
-import { UserRoleEnum } from '../constants';
-import { UpdateUserRoleInput } from '../user/dto/update-user-role.input';
+
+import { AuthLoginInput } from './dto/auth-login.input';
+import { AuthLoginResponseDto } from './dto/auth-login-response.dto';
+import { AuthRegisterResponseDto } from './dto/auth-register-response.dto';
+import { AuthService } from './auth.service';
 import { ChangePasswordInput } from '../user/dto/change-password.input';
+import { CreateUserInput } from '../user/dto/create-user.input';
+import { CurrentUser } from '../decorators/user.decorator';
+import { GqlJwtAuthGuard } from '../guards/gql-jwt-auth.guard';
+import { Roles } from '../decorators/user-roles.decorator';
+import { RolesGuard } from '../guards/roles.guard';
+import { User } from '../user/schemas/user.schema';
+import { UserRoleEnum } from '../constants';
 
 @Resolver()
 export class AuthResolver {
@@ -52,10 +52,9 @@ export class AuthResolver {
 
   @Mutation(() => AuthLoginResponseDto)
   @UseGuards(GqlJwtAuthGuard)
-  // @Roles(UserRoleEnum.ADMIN)
   async changePassword(
     @Args('change_password', { type: () => ChangePasswordInput })
-      change_password: ChangePasswordInput,
+    change_password: ChangePasswordInput,
     @CurrentUser() user: User,
   ): Promise<AuthLoginResponseDto> {
     return await this.authService.changeUserPassword(change_password, user);

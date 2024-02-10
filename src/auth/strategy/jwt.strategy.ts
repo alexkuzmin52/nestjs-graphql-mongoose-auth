@@ -1,7 +1,8 @@
-import { PassportStrategy } from '@nestjs/passport';
-import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
+import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+
 import { AuthService } from '../auth.service';
 
 @Injectable()
@@ -18,10 +19,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any, done: VerifiedCallback) {
-    // console.log('111111111111111111111111 jwt-strategy');
     const user = await this.authService.validateUser(payload);
-    // console.log('333333333333333333333 jwt-strategy');
-    // console.log('user :', user);
+
     if (!user) {
       return done(
         new HttpException('Unauthorized access', HttpStatus.UNAUTHORIZED),

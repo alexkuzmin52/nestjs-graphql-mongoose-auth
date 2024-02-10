@@ -1,10 +1,10 @@
-import { Field, InputType } from "@nestjs/graphql";
-import { UserRoleEnum } from "../../constants";
-import { IsEnum, IsNotEmpty, IsString } from "class-validator";
+import { Field, InputType } from '@nestjs/graphql';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+
+import { UserRoleEnum } from '../../constants';
 
 @InputType()
 export class UpdateUserRoleInput {
-
   @Field(() => String)
   @IsNotEmpty()
   @IsString()

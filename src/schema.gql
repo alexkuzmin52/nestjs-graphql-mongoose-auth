@@ -11,14 +11,14 @@ type User {
   status: String
 }
 
-type AuthRegisterResponseDto {
-  message: String!
-  token: String!
-}
-
 type AuthLoginResponseDto {
   access_token: String!
   refresh_token: String!
+}
+
+type AuthRegisterResponseDto {
+  message: String!
+  token: String!
 }
 
 type Query {

@@ -1,7 +1,8 @@
-import { UserRoleEnum, UserStatusEnum } from '../../constants';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+
+import { UserRoleEnum, UserStatusEnum } from '../../constants';
 
 @ObjectType()
 @Schema()
