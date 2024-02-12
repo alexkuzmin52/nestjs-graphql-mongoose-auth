@@ -11,6 +11,7 @@ import { AppService } from './app.service';
 import { AuthModule } from '../auth/auth.module';
 import { UserModule } from '../user/user.module';
 import { configuration } from '../../config/configurarion';
+import { CardModule } from "../card/card.module";
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { configuration } from '../../config/configurarion';
     MongooseModule.forRoot('mongodb://localhost:27017/my-vocabulary'),
     UserModule,
     AuthModule,
+    CardModule,
   ],
   controllers: [],
   providers: [AppService, AppResolver],

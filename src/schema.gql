@@ -21,12 +21,30 @@ type AuthRegisterResponseDto {
   token: String!
 }
 
+type Card {
+  _id: String!
+  userId: String!
+  front_side: String!
+  back_side: String!
+  topic: String
+  level: Float
+  deadline: DateTime!
+  counter: Float
+  failed: Float
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Query {
   hello: String!
   users: [User!]!
   userById(_id: String!): User!
   confirm(confirm_token: String!): AuthLoginResponseDto!
   refresh(refresh_token: String!): AuthLoginResponseDto!
+  cards: [Card!]!
 }
 
 type Mutation {
@@ -35,6 +53,9 @@ type Mutation {
   register(user: CreateUserInput!): AuthRegisterResponseDto!
   login(credential: AuthLoginInput!): AuthLoginResponseDto!
   changePassword(change_password: ChangePasswordInput!): AuthLoginResponseDto!
+  create(create_card: CreateCardInput!): Card!
+  update(update_card: UpdateCardInput!, card_id: String!): Card!
+  delete(card_id: String!): Card!
 }
 
 input UpdateUserStatusInput {
@@ -61,4 +82,16 @@ input AuthLoginInput {
 input ChangePasswordInput {
   new_password: String!
   old_password: String!
+}
+
+input CreateCardInput {
+  front_side: String!
+  back_side: String!
+  topic: String = null
+}
+
+input UpdateCardInput {
+  front_side: String!
+  back_side: String!
+  topic: String = null
 }

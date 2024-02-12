@@ -14,6 +14,7 @@ import { UserRoleEnum } from '../constants';
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
+  // TODO auth
   @Query(() => [User], { name: 'users' })
   async users(): Promise<User[]> {
     return await this.userService.getAllUsers();
