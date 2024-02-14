@@ -5,7 +5,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { UserRoleEnum, UserStatusEnum } from '../../constants';
 
 @ObjectType()
-@Schema()
+@Schema({ timestamps: true })
 export class User {
   @Field(() => String)
   _id: MongooseSchema.Types.ObjectId;
@@ -21,6 +21,10 @@ export class User {
   @Field(() => String)
   @Prop()
   password: string;
+
+  @Field(() => String)
+  @Prop()
+  createdAt: Date;
 
   @Field(() => String, { nullable: true, defaultValue: UserRoleEnum.USER })
   @Prop({ enum: UserRoleEnum, default: UserRoleEnum.USER })

@@ -11,7 +11,7 @@ import { AppService } from './app.service';
 import { AuthModule } from '../auth/auth.module';
 import { UserModule } from '../user/user.module';
 import { configuration } from '../../config/configurarion';
-import { CardModule } from "../card/card.module";
+import { CardModule } from '../card/card.module';
 
 @Module({
   imports: [

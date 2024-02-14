@@ -1,15 +1,8 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { Schema as MongooseSchema } from 'mongoose';
 import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 @InputType()
 export class CreateCardInput {
-  // @Field(() => String)
-  // @IsNotEmpty()
-  // @IsString()
-  // @Length(2, 256)
-  // userId: string;
-
   @Field(() => String)
   @IsNotEmpty()
   @IsString()

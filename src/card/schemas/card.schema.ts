@@ -1,5 +1,5 @@
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { Field, GraphQLISODateTime, ObjectType } from '@nestjs/graphql';
+import { Field, GraphQLISODateTime, Int, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { User } from '../../user/schemas/user.schema';
@@ -26,20 +26,20 @@ export class Card {
   @Prop()
   topic?: string;
 
-  @Field(() => Number, { nullable: true, defaultValue: 1 })
-  @Prop()
+  @Field(() => Int, { nullable: true, defaultValue: 1 })
+  @Prop({ type: Number, default: 1 })
   level?: number;
 
   @Field(() => GraphQLISODateTime)
   @Prop()
   deadline: Date;
 
-  @Field(() => Number, { nullable: true, defaultValue: 0 })
-  @Prop()
+  @Field(() => Int, { nullable: true, defaultValue: 0 })
+  @Prop({ type: Number, default: 0})
   counter?: number;
 
   @Field(() => Number, { nullable: true, defaultValue: 0 })
-  @Prop()
+  @Prop({ type: Number, default: 0})
   failed?: number;
 }
 

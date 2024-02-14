@@ -54,14 +54,20 @@ export class AuthService {
     const payload = this.jwtService.verify(confirm_token, {
       secret: this.configService.get('JWT_CONFIRM_EMAIL_SECRET'),
     });
+
     const confirmedUser = await this.userService.updateUser(payload['_id'], {
       status: UserStatusEnum.CONFIRMED,
     });
+
     const tokensPair = await this.createTokensPair(confirmedUser);
+
     return tokensPair;
   }
 
-  async loginUser(_id: string, credential: AuthLoginInput): Promise<AuthLoginResponseDto> {
+  async loginUser(
+    _id: string,
+    credential: AuthLoginInput,
+  ): Promise<AuthLoginResponseDto> {
     const { email, password } = credential;
 
     const user = await this.userService.findUserByEmail(email);

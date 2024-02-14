@@ -7,6 +7,7 @@ type User {
   name: String!
   email: String!
   password: String!
+  createdAt: String!
   role: String
   status: String
 }
@@ -27,9 +28,9 @@ type Card {
   front_side: String!
   back_side: String!
   topic: String
-  level: Float
+  level: Int
   deadline: DateTime!
-  counter: Float
+  counter: Int
   failed: Float
 }
 
@@ -45,6 +46,7 @@ type Query {
   confirm(confirm_token: String!): AuthLoginResponseDto!
   refresh(refresh_token: String!): AuthLoginResponseDto!
   cards: [Card!]!
+  filter_card(limit: Int!, page: Int!, minCounter: Int, maxCounter: Int, minFailed: Int, maxFailed: Int, topic: String, level: Int, deadline: DateTime, sortingField: String, sortingDirection: String): [Card!]!
 }
 
 type Mutation {
@@ -54,7 +56,7 @@ type Mutation {
   login(credential: AuthLoginInput!): AuthLoginResponseDto!
   changePassword(change_password: ChangePasswordInput!): AuthLoginResponseDto!
   create(create_card: CreateCardInput!): Card!
-  update(update_card: UpdateCardInput!, card_id: String!): Card!
+  update(cardId: String!, front_side: String, back_side: String, topic: String): Card!
   delete(card_id: String!): Card!
 }
 
@@ -85,12 +87,6 @@ input ChangePasswordInput {
 }
 
 input CreateCardInput {
-  front_side: String!
-  back_side: String!
-  topic: String = null
-}
-
-input UpdateCardInput {
   front_side: String!
   back_side: String!
   topic: String = null
