@@ -12,10 +12,12 @@ import { UpdateCardArgs } from './types/update-card.args';
 import { UseGuards } from '@nestjs/common';
 import { User } from '../user/schemas/user.schema';
 import { UserRoleEnum } from '../constants';
+import { AnswerFrontSideArgs } from './types/answer-front-side.args';
 
 @Resolver()
 export class CardResolver {
-  constructor(private readonly cardService: CardService) {}
+  constructor(private readonly cardService: CardService) {
+  }
 
   @Query(() => [Card], { name: 'cards' })
   @UseGuards(GqlJwtAuthGuard, RolesGuard)
@@ -55,4 +57,21 @@ export class CardResolver {
   async delete(@Args('card_id') card_id: string): Promise<Card> {
     return await this.cardService.deleteUserCard(card_id);
   }
+
+  // ****************************************************************
+  @Query(() => Date, { name: 'test_date' })
+  async testDate(@Args('test_date') test_date: string): Promise<Date> {
+    return await this.cardService.testingDate(test_date);
+  }
+
+  // ****************************************************************
+
+  @Mutation(() => Boolean)
+  @UseGuards(GqlJwtAuthGuard, RolesGuard)
+  @Roles(UserRoleEnum.USER)
+  async checkAnswerFrontSide(@Args({ type: () => AnswerFrontSideArgs }) args: AnswerFrontSideArgs, @CurrentUser() user: User): Promise<boolean> {
+    return  await this.cardService.checkUserAnswerFrontSide(args, user);
+  }
+
+
 }

@@ -8,12 +8,15 @@ import { Model } from 'mongoose';
 import { UpdateCardArgs } from './types/update-card.args';
 import { User } from '../user/schemas/user.schema';
 import { addDays } from '../helpers/add-days.helper';
+import { AnswerFrontSideArgs } from './types/answer-front-side.args';
+import { checkUserAnswer } from 'src/helpers/check-user-answer';
 
 @Injectable()
 export class CardService {
   constructor(
     @InjectModel(Card.name) private readonly cardModel: Model<CardType>,
-  ) {}
+  ) {
+  }
 
   async getAllUserCards(user: User): Promise<Card[]> {
     const userCards = await this.cardModel.find({ userId: user._id }).exec();
@@ -75,4 +78,38 @@ export class CardService {
     return filteredCards;
   }
 
+  // *******************************************************************
+  async testingDate(test_date: string): Promise<Date> {
+    console.log(test_date);
+    const inputDate = new Date();
+    console.log('inputDate ----- :', inputDate);
+    const inputDate1 = new Date(inputDate);
+    inputDate1.setDate(inputDate1.getDate() + 1);
+    console.log('inputDate1 ----- :', inputDate1);
+    const inputDate_2 = new Date(inputDate);
+    inputDate_2.setDate(inputDate_2.getDate() - 1);
+    console.log('inputDate_2 ----- :', inputDate_2);
+    const different = inputDate.getDate() - inputDate_2.getDate();
+    const test = inputDate.getDate() > (inputDate_2.getDate() + 1);
+    console.log('different ----- :', different);
+    console.log('test ----- :', test);
+    const date = inputDate.getDate();
+    const date_2 = inputDate_2.getDate();
+    console.log('date ----- :', date);
+    console.log('date_2 ----- :', date_2);
+
+    return inputDate_2;
+  }
+
+
+  async checkUserAnswerFrontSide(args: AnswerFrontSideArgs, user: User): Promise<boolean> {
+    const { cardId, answer } = args;
+    const card = await this.cardModel.findById(cardId).exec();
+    if (!card) throw new NotFoundException(`Card with ID ${cardId} not found`);
+    console.log('card ***** :', card);
+    const checkAnswer = card.front_side == answer;
+    const updatedCard = checkUserAnswer(card, checkAnswer);
+    console.log('updatedCard ***** :', updatedCard);
+    return true;
+  }
 }
