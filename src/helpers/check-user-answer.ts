@@ -181,4 +181,4 @@ export const checkUserAnswer = (card: Card, check: boolean): Card => {
   }
 
   return card;
-}
+};

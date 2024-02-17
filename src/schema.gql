@@ -47,6 +47,7 @@ type Query {
   refresh(refresh_token: String!): AuthLoginResponseDto!
   cards: [Card!]!
   filter_card(limit: Int!, page: Int!, minCounter: Int, maxCounter: Int, minFailed: Int, maxFailed: Int, topic: String, level: Int, deadline: DateTime, sortingField: String, sortingDirection: String): [Card!]!
+  test_date(test_date: String!): DateTime!
 }
 
 type Mutation {
@@ -58,6 +59,7 @@ type Mutation {
   create(create_card: CreateCardInput!): Card!
   update(cardId: String!, front_side: String, back_side: String, topic: String): Card!
   delete(card_id: String!): Card!
+  checkAnswerFrontSide(answer: String!, cardId: String!): Boolean!
 }
 
 input UpdateUserStatusInput {
